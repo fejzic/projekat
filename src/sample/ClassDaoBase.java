@@ -69,7 +69,7 @@ public class ClassDaoBase {
             addCategoryQuery = conn.prepareStatement("INSERT INTO category VALUES(?,?)");
             addPublisherQuery = conn.prepareStatement("INSERT INTO publisher VALUES(?,?)");
             addBorrowsQuery = conn.prepareStatement("INSERT INTO borrows VALUES(?,?,?,?,?,?,?)");
-            addBookQuery = conn.prepareStatement("INSERT INTO book VALUES(?,?,?,?,?,?,?)");
+            addBookQuery = conn.prepareStatement("INSERT INTO book VALUES(?,?,?,?,?,?)");
             addStudentQuery = conn.prepareStatement("INSERT INTO student VALUES(?,?,?,?,?)");
             addStaffQuery = conn.prepareStatement("INSERT INTO staff VALUES(?,?)");
             addLibraryQuery = conn.prepareStatement("INSERT INTO library  VALUES(?,?,?)");
@@ -144,19 +144,40 @@ public class ClassDaoBase {
         return rs.getString(4);
     }
 
-    private Library getLibraryFromRs(ResultSet rs){
-        try {
-            Library library = new Library(rs.getInt(1),rs.getString(2),rs.getInt(3))
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private Library getLibraryFromRs(ResultSet rs) throws SQLException {
+        Library library = new Library(rs.getInt(1),rs.getString(2),rs.getInt(3));
+        return library;
+
+    }
+
+    private Student getStudentFromRs(ResultSet rs,Borrows b) throws SQLException {
+        Student student = new Student(rs.getInt(1),rs.getString(2),b,rs.getInt(4),rs.getInt(5));
+        return student;
+    }
+
+    private Book getBookFromRs(ResultSet rs) throws SQLException {
+        Library l = null;
+        Publisher p = null;
+        Category c = null;
+        Book b = new Book(rs.getInt(1),rs.getString(2),rs.getString(3),l,p,c);
+        return b;
+    }
+
+    private UserAccount getUserAccoutFromRs(ResultSet rs) throws SQLException {
+        UserAccount us = new UserAccount(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
+        return us;
     }
 
 
 
 
-
-
-
-
 }
+
+
+
+
+
+
+
+
+

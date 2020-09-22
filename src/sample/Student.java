@@ -3,11 +3,11 @@ package sample;
 public class Student {
     private int id;
     private String studentName;
-    private int borrowId;
+    Borrows borrowId;
     private int department;
     private Number contact;
 
-    public Student(int id, String studentName, int borrowId, int department, Number contact) {
+    public Student(int id, String studentName, Borrows borrowId, int department, Number contact) {
         this.id = id;
         this.studentName = studentName;
         this.borrowId = borrowId;
@@ -34,11 +34,11 @@ public class Student {
         this.studentName = studentName;
     }
 
-    public int getBorrowId() {
+    public Borrows getBorrowId() {
         return borrowId;
     }
 
-    public void setBorrowId(int borrowId) {
+    public void setBorrowId(Borrows borrowId) {
         this.borrowId = borrowId;
     }
 

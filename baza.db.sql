@@ -5,13 +5,11 @@ CREATE TABLE IF NOT EXISTS `library` (
      `contact`	NUMBER,
      PRIMARY KEY (`id`)
 );
-
 CREATE TABLE IF NOT EXISTS `staff`(
        `id`	INTEGER,
        `staff_name`	TEXT,
        PRIMARY KEY (`id`)
 );
-
 CREATE TABLE IF NOT EXISTS `student`(
        `id`	INTEGER,
        `student_name`	TEXT,
@@ -21,15 +19,12 @@ CREATE TABLE IF NOT EXISTS `student`(
        PRIMARY KEY (`id`),
        FOREIGN KEY (`borrow_id`) REFERENCES `borrows (`id`)
 );
-
-
 CREATE TABLE IF NOT EXISTS `book`(
     `isbn`	INTEGER,
     `author`	TEXT,
     `title`	TEXT,
     `library_id`	INTEGER,
     `publisher_id`	INTEGER,
-    `year`	DATE,
     `category_id`	TEXT,
     PRIMARY KEY (`isbn`),
     FOREIGN KEY (`library_id`) REFERENCES `library` (`id`),
@@ -67,7 +62,6 @@ CREATE TABLE IF NOT EXISTS `user_account`
     `password` text,
     PRIMARY KEY (`first_name`)
 );
-
 CREATE TABLE IF NOT EXISTS `admin_account`
 (
     `id`       INTEGER,

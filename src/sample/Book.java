@@ -6,18 +6,16 @@ public class Book {
     private int isbn;
     private String author;
     private String title;
-    private int libraryId;
-    private int publisherId;
-    private Year year;
-    private String categoryId;
+    Library libraryId;
+    Publisher publisherId;
+    Category categoryId;
 
-    public Book(int isbn, String author, String title, int libraryId, int publisherId, Year year, String categoryId) {
+    public Book(int isbn, String author, String title, Library libraryId, Publisher publisherId, Category categoryId) {
         this.isbn = isbn;
         this.author = author;
         this.title = title;
         this.libraryId = libraryId;
         this.publisherId = publisherId;
-        this.year = year;
         this.categoryId = categoryId;
     }
 
@@ -48,35 +46,27 @@ public class Book {
         this.title = title;
     }
 
-    public int getLibraryId() {
+    public Library getLibraryId() {
         return libraryId;
     }
 
-    public void setLibraryId(int libraryId) {
+    public void setLibraryId(Library libraryId) {
         this.libraryId = libraryId;
     }
 
-    public int getPublisherId() {
+    public Publisher getPublisherId() {
         return publisherId;
     }
 
-    public void setPublisherId(int publisherId) {
+    public void setPublisherId(Publisher publisherId) {
         this.publisherId = publisherId;
     }
 
-    public Year getYear() {
-        return year;
-    }
-
-    public void setYear(Year year) {
-        this.year = year;
-    }
-
-    public String getCategoryId() {
+    public Category getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(String categoryId) {
+    public void setCategoryId(Category categoryId) {
         this.categoryId = categoryId;
     }
 }
