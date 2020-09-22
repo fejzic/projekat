@@ -37,3 +37,10 @@
    -fx-border-width: 2px;
 }
 
+.poljeIspravno {
+   -fx-control-inner-background: greenyellow;
+}
+.poljeNijeIspravno {
+   -fx-control-inner-background: lightpink;
+}
+

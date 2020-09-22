@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@/css/login.css" />
+    </stylesheets>
   <columnConstraints>
     <ColumnConstraints fx:id="singUp" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -19,12 +23,12 @@
                <Image url="@/image/log.png" />
              </image>
            </ImageView>
-           <TextField fx:id="fldUserName" layoutX="200.0" layoutY="240.0" prefHeight="28.0" prefWidth="221.0" promptText="Username" style="-fx-background-color: white; -fx-text-inner-color: grey;" />
-           <TextField fx:id="fldName" layoutX="200.0" layoutY="160.0" prefHeight="28.0" prefWidth="221.0" promptText="First name" style="-fx-background-color: white; -fx-text-inner-color: grey;" />
-           <TextField fx:id="fldSurname" layoutX="200.0" layoutY="200.0" prefHeight="28.0" prefWidth="221.0" promptText="Last name" style="-fx-background-color: white; -fx-text-inner-color: grey;" />
-           <PasswordField fx:id="fldPass" layoutX="200.0" layoutY="280.0" prefHeight="28.0" prefWidth="221.0" promptText="Password" style="-fx-background-color: white; -fx-text-inner-color: grey;" />
-            <Button layoutX="211.0" layoutY="340.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="78.0" text="Sing up" />
-            <Button layoutX="328.0" layoutY="340.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="78.0" text="Cancel" />
+           <TextField fx:id="fldUserNm" layoutX="200.0" layoutY="240.0" prefHeight="28.0" prefWidth="221.0" promptText="Username" />
+           <TextField fx:id="fldName" layoutX="200.0" layoutY="160.0" prefHeight="28.0" prefWidth="221.0" promptText="First name" />
+           <TextField fx:id="fldSurname" layoutX="200.0" layoutY="200.0" prefHeight="28.0" prefWidth="221.0" promptText="Last name" />
+           <PasswordField fx:id="fldPass" layoutX="200.0" layoutY="280.0" prefHeight="28.0" prefWidth="221.0" promptText="Password" />
+            <Button layoutX="211.0" layoutY="340.0" mnemonicParsing="false" onAction="#actSignUp" prefHeight="25.0" prefWidth="78.0" text="Sing up" />
+            <Button layoutX="328.0" layoutY="340.0" mnemonicParsing="false" onAction="#actCancel" prefHeight="25.0" prefWidth="78.0" text="Cancel" />
          </children>
       </AnchorPane>
    </children>
