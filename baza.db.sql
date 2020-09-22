@@ -61,10 +61,11 @@ CREATE TABLE IF NOT EXISTS `category`(
 );
 CREATE TABLE IF NOT EXISTS `user_account`
 (
-    `id`       INTEGER,
-    `username` text,
+    `first_name`       text,
+    `last_name`       text,
+    `user_name` text,
     `password` text,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`first_name`)
 );
 
 CREATE TABLE IF NOT EXISTS `admin_account`

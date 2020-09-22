@@ -1,12 +1,14 @@
 package sample;
 
 public class UserAccount {
-    private int id;
+    private String firstName;
+    private String LastName;
     private String userName;
     private String password;
 
-    public UserAccount(int id, String userName, String password) {
-        this.id = id;
+    public UserAccount(String firstName, String lastName, String userName, String password) {
+        this.firstName = firstName;
+        LastName = lastName;
         this.userName = userName;
         this.password = password;
     }
@@ -14,12 +16,20 @@ public class UserAccount {
     public UserAccount() {
     }
 
-    public int getId() {
-        return id;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return LastName;
+    }
+
+    public void setLastName(String lastName) {
+        LastName = lastName;
     }
 
     public String getUserName() {

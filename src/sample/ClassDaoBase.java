@@ -13,7 +13,8 @@ public class ClassDaoBase {
     getPublisherQuery,getCategoryQuery,getUserAccountQuery,getAdminAccountQuery,deleteStudentQuery,deleteLibraryQuery,deleteStaffQuery,
             deleteBookQuery,deleteBorrowsQuery,deletePublisherQuery,deleteCategoryQuery,deleteUserAccountQuery,deleteAdminAccountQuery,
             addStudentQuery,addLibraryQuery,addStaffQuery, addBookQuery,addBorrowsQuery,addPublisherQuery,addCategoryQuery,
-            addUserAccountQuery,addAdminAccountQuery,findBookQuery,findCategoryQuery,findStudentQuery;
+            addUserAccountQuery,addAdminAccountQuery,findBookQuery,findCategoryQuery,findStudentQuery,
+        addUserNameQuery;
 
     public static ClassDaoBase getInstance(){
         if(instance == null) instance = new ClassDaoBase();
@@ -25,6 +26,17 @@ public class ClassDaoBase {
             conn = DriverManager.getConnection("jdbc:sqlite:baza.db");
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+        try {
+            addUserNameQuery = conn.prepareStatement("SELECT * FROM user_account WHERE user_name=?");
+        } catch (SQLException e) {
+            regenerateBase();
+            try {
+                addUserNameQuery = conn.prepareStatement("SELECT * FROM user_account WHERE user_name=?");
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
 
         try {
@@ -53,7 +65,7 @@ public class ClassDaoBase {
 
 
             addAdminAccountQuery = conn.prepareStatement("INSERT INTO admin_account VALUES(?,?,?)");
-            addUserAccountQuery = conn.prepareStatement("INSERT INTO user_account VALUES(?,?,?)");
+            addUserAccountQuery = conn.prepareStatement("INSERT INTO user_account VALUES(?,?,?,?)");
             addCategoryQuery = conn.prepareStatement("INSERT INTO category VALUES(?,?)");
             addPublisherQuery = conn.prepareStatement("INSERT INTO publisher VALUES(?,?)");
             addBorrowsQuery = conn.prepareStatement("INSERT INTO borrows VALUES(?,?,?,?,?,?,?)");
@@ -83,7 +95,7 @@ public class ClassDaoBase {
         }
     }
 
-    private void regenerisiBazu() {
+    private void regenerateBase() {
         Scanner ulaz = null;
         try {
             ulaz = new Scanner(new FileInputStream("baza.db.sql"));
@@ -106,6 +118,24 @@ public class ClassDaoBase {
         }
     }
 
+    public void registerUserName(String firstName, String lastName, String userName, String password) {
+        try {
+            addUserAccountQuery.setString(1, firstName);
+            addUserAccountQuery.setString(2, lastName);
+            addUserAccountQuery.setString(3, userName);
+            addUserAccountQuery.setString(4, password);
+            addUserAccountQuery.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public boolean validateUserName(String userName) throws SQLException {
+        addUserNameQuery.setString(1,userName);
+        ResultSet rs = addUserNameQuery.executeQuery();
+        if(!rs.next()) return false;
+        return true;
+    }
 
 
 
