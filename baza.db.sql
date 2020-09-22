@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `student`(
        `department`	INTEGER,
        `contact`	NUMBER,
        PRIMARY KEY (`id`),
-       FOREIGN KEY (`borrow_id`) REFERENCES `borrows (`id`)
+       FOREIGN KEY (`borrow_id`) REFERENCES `borrows` (`id`)
 );
 CREATE TABLE IF NOT EXISTS `book`(
     `isbn`	INTEGER,
