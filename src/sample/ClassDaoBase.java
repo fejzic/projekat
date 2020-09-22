@@ -13,7 +13,7 @@ public class ClassDaoBase {
     getPublisherQuery,getCategoryQuery,getUserAccountQuery,getAdminAccountQuery,deleteStudentQuery,deleteLibraryQuery,deleteStaffQuery,
             deleteBookQuery,deleteBorrowsQuery,deletePublisherQuery,deleteCategoryQuery,deleteUserAccountQuery,deleteAdminAccountQuery,
             addStudentQuery,addLibraryQuery,addStaffQuery, addBookQuery,addBorrowsQuery,addPublisherQuery,addCategoryQuery,
-            addUserAccountQuery,addAdminAccountQuery;
+            addUserAccountQuery,addAdminAccountQuery,findBookQuery,findCategoryQuery,findStudentQuery;
 
     public static ClassDaoBase getInstance(){
         if(instance == null) instance = new ClassDaoBase();
@@ -46,6 +46,11 @@ public class ClassDaoBase {
             deletePublisherQuery =conn.prepareStatement("DELETE FROM publisher WHERE id=?");
             deleteStaffQuery = conn.prepareStatement("DELETE FROM staff WHERE id=?");
             deleteStudentQuery = conn.prepareStatement("DELETE FROM student WHERE id=?");
+            findBookQuery = conn.prepareStatement("SELECT * FROM book WHERE name=?");
+            findCategoryQuery = conn.prepareStatement("SELECT * FROM category WHERE name=?");
+            findStudentQuery = conn.prepareStatement("SELECT * FROM student WHERE name=?");
+
+
 
             addAdminAccountQuery = conn.prepareStatement("INSERT INTO admin_account VALUES(?,?,?)");
             addUserAccountQuery = conn.prepareStatement("INSERT INTO user_account VALUES(?,?,?)");
@@ -53,6 +58,9 @@ public class ClassDaoBase {
             addPublisherQuery = conn.prepareStatement("INSERT INTO publisher VALUES(?,?)");
             addBorrowsQuery = conn.prepareStatement("INSERT INTO borrows VALUES(?,?,?,?,?,?,?)");
             addBookQuery = conn.prepareStatement("INSERT INTO book VALUES(?,?,?,?,?,?,?)");
+            addStudentQuery = conn.prepareStatement("INSERT INTO students VALUES(?,?,?,?,?)");
+            addStaffQuery = conn.prepareStatement("INSERT INTO staff VALUES(?,?)");
+            addLibraryQuery = conn.prepareStatement("INSERT INTO library  VALUES(?,?,?)");
 
 
 
@@ -97,5 +105,9 @@ public class ClassDaoBase {
             e.printStackTrace();
         }
     }
+
+
+
+
 
 }
