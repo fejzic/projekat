@@ -1,40 +1,23 @@
 package sample;
 
-public class AdminAccount {
-    private int id;
-    private String username;
-    private String password;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-    public AdminAccount(int id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
+public class AdminAccount extends UserAccount {
+
+    public AdminAccount(String firstName, String lastName, String userName, String password) {
+        super(firstName, lastName, userName, password);
     }
 
     public AdminAccount() {
     }
 
-    public int getId() {
-        return id;
-    }
+    public boolean checkPassword(){ 
+        String pass = super.getPassword();
+        String pattern = "(?=.*[A-Z])(?=.*[a-z])(?=.*?[0-9])(?=.*[@#$%^&+=*;.<>()ß¤×÷¸¸¨˘°°!:˛`˙˘ˇ~/])";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(pass);
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+        return m.find();
     }
 }

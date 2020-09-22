@@ -14,7 +14,7 @@ public class ClassDaoBase {
             deleteBookQuery,deleteBorrowsQuery,deletePublisherQuery,deleteCategoryQuery,deleteUserAccountQuery,deleteAdminAccountQuery,
             addStudentQuery,addLibraryQuery,addStaffQuery, addBookQuery,addBorrowsQuery,addPublisherQuery,addCategoryQuery,
             addUserAccountQuery,addAdminAccountQuery,findBookQuery,findCategoryQuery,findStudentQuery,
-        addUserNameQuery;
+        addUserNameQuery,addPasswordQuery;
 
     public static ClassDaoBase getInstance(){
         if(instance == null) instance = new ClassDaoBase();
@@ -48,9 +48,9 @@ public class ClassDaoBase {
             getPublisherQuery = conn.prepareStatement("SELECT * FROM publisher WHERE id=?");
             getStaffQuery = conn.prepareStatement("SELECT * FROM staff WHERE id=?");
             getAdminAccountQuery = conn.prepareStatement("SELECT * FROM admin_account WHERE id=?");
-            getUserAccountQuery = conn.prepareStatement("SELECT * FROM user_account WHERE id=?");
+            getUserAccountQuery = conn.prepareStatement("SELECT * FROM user_account WHERE first_name=?");
             deleteAdminAccountQuery = conn.prepareStatement("DELETE FROM admin_account WHERE id=?");
-            deleteUserAccountQuery = conn.prepareStatement("DELETE FROM user_account WHERE id=?");
+            deleteUserAccountQuery = conn.prepareStatement("DELETE FROM user_account WHERE first_name=?");
             deleteBookQuery = conn.prepareStatement("DELETE FROM book WHERE isbn=?");
             deleteBorrowsQuery = conn.prepareStatement("DELETE FROM borrows WHERE id=?");
             deleteCategoryQuery = conn.prepareStatement("DELETE FROM category WHERE id=?");
@@ -58,10 +58,10 @@ public class ClassDaoBase {
             deletePublisherQuery =conn.prepareStatement("DELETE FROM publisher WHERE id=?");
             deleteStaffQuery = conn.prepareStatement("DELETE FROM staff WHERE id=?");
             deleteStudentQuery = conn.prepareStatement("DELETE FROM student WHERE id=?");
-            findBookQuery = conn.prepareStatement("SELECT * FROM book WHERE name=?");
+            findBookQuery = conn.prepareStatement("SELECT * FROM book WHERE title=?");
             findCategoryQuery = conn.prepareStatement("SELECT * FROM category WHERE name=?");
-            findStudentQuery = conn.prepareStatement("SELECT * FROM student WHERE name=?");
-
+            findStudentQuery = conn.prepareStatement("SELECT * FROM student WHERE student_name=?");
+            addPasswordQuery = conn.prepareStatement("SELECT * FROM user_account WHERE user_name=?");
 
 
             addAdminAccountQuery = conn.prepareStatement("INSERT INTO admin_account VALUES(?,?,?)");
@@ -70,7 +70,7 @@ public class ClassDaoBase {
             addPublisherQuery = conn.prepareStatement("INSERT INTO publisher VALUES(?,?)");
             addBorrowsQuery = conn.prepareStatement("INSERT INTO borrows VALUES(?,?,?,?,?,?,?)");
             addBookQuery = conn.prepareStatement("INSERT INTO book VALUES(?,?,?,?,?,?,?)");
-            addStudentQuery = conn.prepareStatement("INSERT INTO students VALUES(?,?,?,?,?)");
+            addStudentQuery = conn.prepareStatement("INSERT INTO student VALUES(?,?,?,?,?)");
             addStaffQuery = conn.prepareStatement("INSERT INTO staff VALUES(?,?)");
             addLibraryQuery = conn.prepareStatement("INSERT INTO library  VALUES(?,?,?)");
 
@@ -129,12 +129,19 @@ public class ClassDaoBase {
             e.printStackTrace();
         }
     }
-    
+
     public boolean validateUserName(String userName) throws SQLException {
         addUserNameQuery.setString(1,userName);
         ResultSet rs = addUserNameQuery.executeQuery();
         if(!rs.next()) return false;
         return true;
+    }
+
+    public String validatePassword(String userName) throws SQLException {
+        addPasswordQuery.setString(1,userName);
+        ResultSet rs = addPasswordQuery.executeQuery();
+        if(!rs.next()) return null;
+        return rs.getString(4);
     }
 
 
