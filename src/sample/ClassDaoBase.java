@@ -10,7 +10,8 @@ public class ClassDaoBase {
     private Connection conn;
 
     private PreparedStatement getStudentQuery,getLibraryQuery,getStaffQuery,getBookQuery,getBorrowsQuery,
-    getPublisherQuery,getCategoryQuery,getUserAccountQuery,getAdminAccountQuery,;
+    getPublisherQuery,getCategoryQuery,getUserAccountQuery,getAdminAccountQuery,deleteStudentQuery,deleteLibraryQuery,deleteStaffQuery,
+            deleteBookQuery,deleteBorrowsQuery,deletePublisherQuery,deleteCategoryQuery,;
 
     public static ClassDaoBase getInstance(){
         if(instance == null) instance = new ClassDaoBase();
