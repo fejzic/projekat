@@ -144,7 +144,17 @@ public class ClassDaoBase {
         return rs.getString(4);
     }
 
-    
+    private Library getLibraryFromRs(ResultSet rs){
+        try {
+            Library library = new Library(rs.getInt(1),rs.getString(2),rs.getInt(3))
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 
 
 
