@@ -11,7 +11,9 @@ public class ClassDaoBase {
 
     private PreparedStatement getStudentQuery,getLibraryQuery,getStaffQuery,getBookQuery,getBorrowsQuery,
     getPublisherQuery,getCategoryQuery,getUserAccountQuery,getAdminAccountQuery,deleteStudentQuery,deleteLibraryQuery,deleteStaffQuery,
-            deleteBookQuery,deleteBorrowsQuery,deletePublisherQuery,deleteCategoryQuery,;
+            deleteBookQuery,deleteBorrowsQuery,deletePublisherQuery,deleteCategoryQuery,deleteUserAccountQuery,deleteAdminAccountQuery,
+            addStudentQuery,addLibraryQuery,addStaffQuery, addBookQuery,addBorrowsQuery,addPublisherQuery,addCategoryQuery,
+            addUserAccountQuery,addAdminAccountQuery;
 
     public static ClassDaoBase getInstance(){
         if(instance == null) instance = new ClassDaoBase();
@@ -35,6 +37,22 @@ public class ClassDaoBase {
             getStaffQuery = conn.prepareStatement("SELECT * FROM staff WHERE id=?");
             getAdminAccountQuery = conn.prepareStatement("SELECT * FROM admin_account WHERE id=?");
             getUserAccountQuery = conn.prepareStatement("SELECT * FROM user_account WHERE id=?");
+            deleteAdminAccountQuery = conn.prepareStatement("DELETE FROM admin_account WHERE id=?");
+            deleteUserAccountQuery = conn.prepareStatement("DELETE FROM user_account WHERE id=?");
+            deleteBookQuery = conn.prepareStatement("DELETE FROM book WHERE isbn=?");
+            deleteBorrowsQuery = conn.prepareStatement("DELETE FROM borrows WHERE id=?");
+            deleteCategoryQuery = conn.prepareStatement("DELETE FROM category WHERE id=?");
+            deleteLibraryQuery= conn.prepareStatement("DELETE FROM library WHERE id=?");
+            deletePublisherQuery =conn.prepareStatement("DELETE FROM publisher WHERE id=?");
+            deleteStaffQuery = conn.prepareStatement("DELETE FROM staff WHERE id=?");
+            deleteStudentQuery = conn.prepareStatement("DELETE FROM student WHERE id=?");
+
+            addAdminAccountQuery = conn.prepareStatement("INSERT INTO admin_account VALUES(?,?,?)");
+            addUserAccountQuery = conn.prepareStatement("INSERT INTO user_account VALUES(?,?,?)");
+            addCategoryQuery = conn.prepareStatement("INSERT INTO category VALUES(?,?)");
+            addPublisherQuery = conn.prepareStatement("INSERT INTO publisher VALUES(?,?)");
+            addBorrowsQuery = conn.prepareStatement("INSERT INTO borrows VALUES(?,?,?,?,?,?,?)");
+            addBookQuery = conn.prepareStatement("INSERT INTO book VALUES(?,?,?,?,?,?,?)");
 
 
 
