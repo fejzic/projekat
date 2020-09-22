@@ -1,0 +1,39 @@
+#back{
+   -fx-background-color : white;
+ }
+
+ #btnSign{
+ -fx-background-color: transparent;
+ -fx-border-color: white;
+ -fx-border-radius: 30px;
+
+ }
+
+ #fldUserName{
+     -fx-border-color: grey;
+     -fx-border-width: 0 0 1 0;
+     -fx-background-color: transparent;
+     }
+ #fldUserName:focused{
+     -fx-border-width: 0 0 1 0;
+     -fx-border-color: 	darkcyan;
+ }
+
+#fldPassword{
+      -fx-border-color: grey;
+     -fx-border-width: 0 0 1 0;
+     -fx-background-color: transparent;
+}
+#fldPassword:focused{
+                 -fx-border-width: 0 0 1 0;
+                 -fx-border-color:	darkcyan;
+ }
+
+#btnLog{
+  -fx-background-color: #4B0082;
+  -fx-border-color: #4B0082;
+   -fx-background-radius: 20px;
+   -fx-border-radius: 20px;
+   -fx-border-width: 2px;
+}
+
