@@ -36,4 +36,9 @@ public class Library {
     public void setContact(Number contact) {
         this.contact = contact;
     }
+
+    @Override
+    public String toString() {
+        return  buildingName;
+    }
 }

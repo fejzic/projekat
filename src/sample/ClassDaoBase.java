@@ -19,7 +19,7 @@ public class ClassDaoBase {
             deleteBookQuery, deleteBorrowsQuery, deletePublisherQuery, deleteCategoryQuery, deleteUserAccountQuery, deleteAdminAccountQuery,
             addStudentQuery, addLibraryQuery, addStaffQuery, addBookQuery, addBorrowsQuery, addPublisherQuery, addCategoryQuery,
             addUserAccountQuery, addAdminAccountQuery, findBookQuery, findCategoryQuery, findStudentQuery,
-            addUserNameQuery, addPasswordQuery,editBookQuery,findLibraryQuery,findBorrowQuery,findPublisherQuery,findStaffQuery;
+            addUserNameQuery, addPasswordQuery,editBookQuery,findLibraryQuery,findBorrowQuery,findPublisherQuery,findStaffQuery,getAllCategoriesQuery,getAllPublishersQuery,getAllLibrariesQuery;
 
     public static ClassDaoBase getInstance() {
         if (instance == null) instance = new ClassDaoBase();
@@ -68,9 +68,12 @@ public class ClassDaoBase {
             findStudentQuery = conn.prepareStatement("SELECT * FROM student WHERE student_name=?");
             addPasswordQuery = conn.prepareStatement("SELECT * FROM user_account WHERE user_name=?");
             findLibraryQuery = conn.prepareStatement("SELECT * from library where id=?");
-            findBorrowQuery = conn.prepareStatement("SELECT * from borrow where id=?");
+            findBorrowQuery = conn.prepareStatement("SELECT * from borrows where id=?");
             findStaffQuery = conn.prepareStatement("SELECT * from staff where id=?");
             findPublisherQuery = conn.prepareStatement("SELECT * from publisher where id=?");
+            getAllCategoriesQuery = conn.prepareStatement("SELECT * from category");
+            getAllLibrariesQuery = conn.prepareStatement("SELECT * from library");
+            getAllPublishersQuery = conn.prepareStatement("SELECT * from publisher");
 
 
             addAdminAccountQuery = conn.prepareStatement("INSERT INTO admin_account VALUES(?,?,?)");
@@ -79,7 +82,7 @@ public class ClassDaoBase {
             addPublisherQuery = conn.prepareStatement("INSERT INTO publisher VALUES(?,?)");
             addBorrowsQuery = conn.prepareStatement("INSERT INTO borrows VALUES(?,?,?,?,?,?,?)");
             addBookQuery = conn.prepareStatement("INSERT INTO book VALUES(?,?,?,?,?,?)");
-            addStudentQuery = conn.prepareStatement("INSERT INTO student VALUES(?,?,?,?,?)");
+            addStudentQuery = conn.prepareStatement("INSERT INTO student VALUES(?,?,?,?)");
             addStaffQuery = conn.prepareStatement("INSERT INTO staff VALUES(?,?)");
             addLibraryQuery = conn.prepareStatement("INSERT INTO library  VALUES(?,?,?)");
 
@@ -137,6 +140,39 @@ public class ClassDaoBase {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public ObservableList<Library> libraries() throws SQLException {
+        ObservableList<Library> libraries = FXCollections.observableArrayList();
+
+        ResultSet rs = getAllLibrariesQuery.executeQuery();
+
+        while(rs.next()){
+            libraries.add(new Library(rs.getInt(1),rs.getString(2),rs.getInt(3)));
+        }
+        return libraries;
+    }
+
+    public ObservableList<Category> categories() throws SQLException {
+        ObservableList<Category> categories = FXCollections.observableArrayList();
+
+        ResultSet rs = getAllCategoriesQuery.executeQuery();
+
+        while(rs.next()){
+            categories.add(new Category(rs.getInt(1),rs.getString(2)));
+        }
+        return categories;
+    }
+
+    public ObservableList<Publisher> publishers() throws SQLException {
+        ObservableList<Publisher> publishers = FXCollections.observableArrayList();
+
+        ResultSet rs = getAllPublishersQuery.executeQuery();
+
+        while(rs.next()){
+            publishers.add(new Publisher(rs.getInt(1),rs.getString(2)));
+        }
+        return publishers;
     }
 
     public boolean validateUserName(String userName) throws SQLException {
@@ -231,7 +267,7 @@ public class ClassDaoBase {
     private Publisher findPublisher(int id) throws SQLException {
         Publisher publisher = new Publisher();
         findPublisherQuery.setInt(1,id);
-        ResultSet rs = findBorrowQuery.executeQuery();
+        ResultSet rs = findPublisherQuery.executeQuery();
 
         if(rs.next()){
             publisher = new Publisher(rs.getInt(1),rs.getString(2));
@@ -249,7 +285,7 @@ public class ClassDaoBase {
         return us;
     }
 
-    private ObservableList<Book> books() {
+    public ObservableList<Book> books() {
         ObservableList<Book> rez = FXCollections.observableArrayList();
         try {
             ResultSet rs = getBookQuery.executeQuery();

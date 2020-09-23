@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" >
    <left>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -22,7 +22,7 @@
       </GridPane>
    </left>
    <center>
-      <TableView prefHeight="410.0" prefWidth="595.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="table" prefHeight="410.0" prefWidth="595.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="tbAuthor" prefWidth="109.0" text="Author" />
           <TableColumn fx:id="tbTitle" minWidth="0.0" prefWidth="127.0" text="Title" />
