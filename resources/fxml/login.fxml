@@ -55,8 +55,8 @@
                      <Image url="@/image/log.png" />
                  </image>
              </ImageView>
-             <TextField fx:id="fldUserName" layoutX="72.0" layoutY="161.0" prefHeight="28.0" prefWidth="221.0" promptText="Username" style="-fx-background-color: white; -fx-text-inner-color: grey;" />
-             <PasswordField fx:id="fldPassword" layoutX="72.0" layoutY="220.0" prefHeight="28.0" prefWidth="221.0" promptText="Password" style="-fx-background-color: white; -fx-text-inner-color: grey;" />
+             <TextField fx:id="fldUserName" layoutX="72.0" layoutY="161.0" prefHeight="28.0" prefWidth="221.0" promptText="Username" style=" -fx-text-inner-color: grey;" />
+             <PasswordField fx:id="fldPassword" layoutX="72.0" layoutY="220.0" prefHeight="28.0" prefWidth="221.0" promptText="Password" style=" -fx-text-inner-color: grey;" />
             <Button fx:id="btnLog" layoutX="103.0" layoutY="294.0" mnemonicParsing="false" onAction="#actLogin" prefHeight="40.0" prefWidth="173.0" text="Login In" textFill="WHITE">
                <font>
                   <Font size="17.0" />

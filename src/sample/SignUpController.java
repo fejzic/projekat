@@ -1,10 +1,12 @@
 package sample;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import javafx.stage.StageStyle;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,6 +22,7 @@ public class SignUpController {
     private boolean SurnameOk = false;
     private boolean UsernameOk = false;
     private boolean PasswordOk = false;
+    private boolean allOk = true;
     private ClassDaoBase baza;
 
     UserAccount userAccount;
@@ -45,6 +48,7 @@ baza = ClassDaoBase.getInstance();
                 fldName.getStyleClass().removeAll("poljeIspravno");
                 fldName.getStyleClass().add("poljeNijeIspravno");
                 NameOk = false;
+                allOk = false;
             }
         });
 
@@ -62,6 +66,7 @@ baza = ClassDaoBase.getInstance();
                 fldSurname.getStyleClass().removeAll("poljeIspravno");
                 fldSurname.getStyleClass().add("poljeNijeIspravno");
                 SurnameOk = false;
+                allOk = false;
             }
         });
 
@@ -79,6 +84,7 @@ baza = ClassDaoBase.getInstance();
                 fldUserNm.getStyleClass().removeAll("poljeIspravno");
                 fldUserNm.getStyleClass().add("poljeNijeIspravno");
                 UsernameOk = false;
+                allOk = false;
             }
         });
 
@@ -94,6 +100,7 @@ baza = ClassDaoBase.getInstance();
                 fldPass.getStyleClass().removeAll("poljeIspravno");
                 fldPass.getStyleClass().add("poljeNijeIspravno");
                 PasswordOk = false;
+                allOk = false;
 
 
             }
@@ -103,12 +110,22 @@ baza = ClassDaoBase.getInstance();
 
 
     public void actSignUp(ActionEvent actionEvent) {
-        if(NameOk && PasswordOk && UsernameOk && SurnameOk) {
+
+
+        if(NameOk && PasswordOk && UsernameOk && SurnameOk ) {
             baza.registerUserName(fldName.getText(),fldSurname.getText(),fldUserNm.getText(),fldPass.getText());
             Node n = (Node) actionEvent.getSource();
             Stage stage = (Stage) n.getScene().getWindow();
             stage.close();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("You have successfully registered!");
+            alert.showAndWait();
+
         }
+
     }
 
     public void actCancel(ActionEvent actionEvent) {
@@ -116,6 +133,8 @@ baza = ClassDaoBase.getInstance();
         Stage stage = (Stage) n.getScene().getWindow();
         stage.close();
     }
+
+
 }
 
 

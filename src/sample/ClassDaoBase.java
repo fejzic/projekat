@@ -3,6 +3,7 @@ package sample;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ClassDaoBase {
@@ -167,6 +168,28 @@ public class ClassDaoBase {
         UserAccount us = new UserAccount(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
         return us;
     }
+
+    private ArrayList<Book> books(){
+        ArrayList<Book> rez = new ArrayList<>();
+        try {
+            ResultSet rs = getBookQuery.executeQuery();
+            while(rs.next()){
+                Book book =  getBookFromRs(rs);
+                rez.add(book);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rez;
+    }
+
+
+
+
+
+
+
+
 
 
 
