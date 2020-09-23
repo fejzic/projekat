@@ -5,6 +5,9 @@ public class Library {
     private String buildingName;
     private Number contact;
 
+    public Library() {
+    }
+
     public Library(int id, String buildingName, Number contact) {
         this.id = id;
         this.buildingName = buildingName;

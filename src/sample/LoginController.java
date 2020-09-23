@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -87,12 +88,31 @@ public class LoginController {
     public void actLogin(ActionEvent actionEvent) throws SQLException {
         String password = fldPassword.getText();
 
+        if (baza.validatePassword(fldUserName.getText()) != null) {
+            if (baza.validatePassword(fldUserName.getText()).equals(password)) {
+                Stage stage = new Stage();
+                Parent root = null;
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+                MainController ctrl = new MainController();
+                loader.setController(ctrl);
+                stage.setTitle("Main");
 
-       /* if(baza.validatePassword(fldUserName.getText()).equals(password)){
-            System.out.println("ASD");
+                try {
+                    root = loader.load();
+                    stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+                    stage.setResizable(false);
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText(null);
+                alert.setContentText("Wrong username or password!");
+                alert.showAndWait();
+            }
         }
-        else {
-            System.out.println("qwer");
-        }*/
-    }
+
 }

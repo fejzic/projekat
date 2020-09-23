@@ -4,6 +4,9 @@ public class Staff {
     private int id;
     private String staffName;
 
+    public Staff() {
+    }
+
     public Staff(int id, String staffName) {
         this.id = id;
         this.staffName = staffName;

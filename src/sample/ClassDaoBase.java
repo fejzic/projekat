@@ -1,5 +1,9 @@
 package sample;
 
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
@@ -15,7 +19,7 @@ public class ClassDaoBase {
             deleteBookQuery, deleteBorrowsQuery, deletePublisherQuery, deleteCategoryQuery, deleteUserAccountQuery, deleteAdminAccountQuery,
             addStudentQuery, addLibraryQuery, addStaffQuery, addBookQuery, addBorrowsQuery, addPublisherQuery, addCategoryQuery,
             addUserAccountQuery, addAdminAccountQuery, findBookQuery, findCategoryQuery, findStudentQuery,
-            addUserNameQuery, addPasswordQuery;
+            addUserNameQuery, addPasswordQuery,editBookQuery,findLibraryQuery,findBorrowQuery,findPublisherQuery,findStaffQuery;
 
     public static ClassDaoBase getInstance() {
         if (instance == null) instance = new ClassDaoBase();
@@ -42,7 +46,7 @@ public class ClassDaoBase {
 
         try {
             getStudentQuery = conn.prepareStatement("SELECT * FROM student WHERE id=? ");
-            getBookQuery = conn.prepareStatement("SELECT * FROM book WHERE isbn = ?");
+            getBookQuery = conn.prepareStatement("SELECT * FROM book");
             getBorrowsQuery = conn.prepareStatement("SELECT * FROM borrows WHERE id=?");
             getCategoryQuery = conn.prepareStatement("SELECT * FROM category WHERE id=?");
             getLibraryQuery = conn.prepareStatement("SELECT * FROM library WHERE id=?");
@@ -60,9 +64,13 @@ public class ClassDaoBase {
             deleteStaffQuery = conn.prepareStatement("DELETE FROM staff WHERE id=?");
             deleteStudentQuery = conn.prepareStatement("DELETE FROM student WHERE id=?");
             findBookQuery = conn.prepareStatement("SELECT * FROM book WHERE title=?");
-            findCategoryQuery = conn.prepareStatement("SELECT * FROM category WHERE name=?");
+            findCategoryQuery = conn.prepareStatement("SELECT * FROM category WHERE id=?");
             findStudentQuery = conn.prepareStatement("SELECT * FROM student WHERE student_name=?");
             addPasswordQuery = conn.prepareStatement("SELECT * FROM user_account WHERE user_name=?");
+            findLibraryQuery = conn.prepareStatement("SELECT * from library where id=?");
+            findBorrowQuery = conn.prepareStatement("SELECT * from borrow where id=?");
+            findStaffQuery = conn.prepareStatement("SELECT * from staff where id=?");
+            findPublisherQuery = conn.prepareStatement("SELECT * from publisher where id=?");
 
 
             addAdminAccountQuery = conn.prepareStatement("INSERT INTO admin_account VALUES(?,?,?)");
@@ -75,6 +83,7 @@ public class ClassDaoBase {
             addStaffQuery = conn.prepareStatement("INSERT INTO staff VALUES(?,?)");
             addLibraryQuery = conn.prepareStatement("INSERT INTO library  VALUES(?,?,?)");
 
+            editBookQuery = conn.prepareStatement("UPDATE book SET author=?, title=?, library_id=?, publisher_id=?,category_id=? WHERE isbn=? ");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -155,11 +164,83 @@ public class ClassDaoBase {
         return student;
     }
 
+    private Category findKategorija(int id) throws SQLException {
+        findBookQuery.setInt(1,id);
+        ResultSet rs = findBookQuery.executeQuery();
+        Category category = new Category();
+
+        if(rs.next()){
+            category = new Category(rs.getInt(1),rs.getString(2));
+        }
+        return category;
+    }
+
+    private Library findLibrary(int id) throws SQLException {
+        findLibraryQuery.setInt(1,id);
+        ResultSet rs = findLibraryQuery.executeQuery();
+        Library library = new Library();
+
+        if(rs.next()){
+            library = new Library(rs.getInt(1),rs.getString(2),rs.getInt(3));
+        }
+        return library;
+    }
+
+    private Staff findStaff(int id) throws SQLException {
+        getStaffQuery.setInt(1,id);
+        ResultSet rs = getStaffQuery.executeQuery();
+        Staff staf = new Staff();
+        if(rs.next()){
+            staf = new Staff(rs.getInt(1),rs.getString(2));
+        }
+        return staf;
+    }
+
+
+    private Student findStudent(int id) throws SQLException {
+        getStudentQuery.setInt(1,id);
+        ResultSet rs = getStudentQuery.executeQuery();
+        Student student = new Student();
+        if(rs.next()){
+            student = new Student(rs.getInt(1),rs.getString(2),findBorrow(rs.getInt(3)),rs.getInt(4),rs.getInt(5));
+        }
+        return student;
+    }
+
+    private Book getBook(int id) throws SQLException {
+        findBookQuery.setInt(1,id);
+        ResultSet rs = findBookQuery.executeQuery();
+        Book book = new Book();
+        if(rs.next()){
+            book = new Book(rs.getInt(1), rs.getString(2), rs.getString(3), findLibrary(rs.getInt(4)), findPublisher(rs.getInt(5)), findKategorija(rs.getInt(6)));
+        }
+
+    return book;
+    }
+    private Borrows findBorrow(int id) throws SQLException {
+        findBorrowQuery.setInt(1,id);
+        ResultSet rs = findBorrowQuery.executeQuery();
+        Borrows borrow = new Borrows();
+
+        if(rs.next()){
+            borrow = new Borrows(rs.getInt(1),getBook(rs.getInt(2)),rs.getString(3),rs.getInt(4),rs.getInt(5),findStaff(rs.getInt(6)),findStudent(rs.getInt(7)));
+        }
+        return borrow;
+    }
+
+    private Publisher findPublisher(int id) throws SQLException {
+        Publisher publisher = new Publisher();
+        findPublisherQuery.setInt(1,id);
+        ResultSet rs = findBorrowQuery.executeQuery();
+
+        if(rs.next()){
+            publisher = new Publisher(rs.getInt(1),rs.getString(2));
+        }
+        return publisher;
+    }
+
     private Book getBookFromRs(ResultSet rs) throws SQLException {
-        Library l = null;
-        Publisher p = null;
-        Category c = null;
-        Book b = new Book(rs.getInt(1), rs.getString(2), rs.getString(3), l, p, c);
+        Book b = new Book(rs.getInt(1), rs.getString(2), rs.getString(3), findLibrary(rs.getInt(4)), findPublisher(rs.getInt(5)), findKategorija(rs.getInt(6)));
         return b;
     }
 
@@ -168,8 +249,8 @@ public class ClassDaoBase {
         return us;
     }
 
-    private ArrayList<Book> books() {
-        ArrayList<Book> rez = new ArrayList<>();
+    private ObservableList<Book> books() {
+        ObservableList<Book> rez = FXCollections.observableArrayList();
         try {
             ResultSet rs = getBookQuery.executeQuery();
             while (rs.next()) {
@@ -245,6 +326,8 @@ public class ClassDaoBase {
             e.printStackTrace();
         }
     }
+
+
 
 
 
