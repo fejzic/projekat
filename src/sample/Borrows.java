@@ -4,14 +4,14 @@ import java.util.Date;
 
 public class Borrows {
     private int id;
-    private int bookId;
+    private Book bookId;
     private String borrowedFrom;
-    private Date borrowedTill;
-    private Date actual_return;
-    private Date issuedBy;
-    private int studentId;
+    private int borrowedTill;
+    private int actual_return;
+    private Staff issuedBy;
+    private Student studentId;
 
-    public Borrows(int id, int bookId, String borrowedFrom, Date borrowedTill, Date actual_return, Date issuedBy, int studentId) {
+    public Borrows(int id, Book bookId, String borrowedFrom, int borrowedTill, int actual_return, Staff issuedBy, Student studentId) {
         this.id = id;
         this.bookId = bookId;
         this.borrowedFrom = borrowedFrom;
@@ -32,13 +32,6 @@ public class Borrows {
         this.id = id;
     }
 
-    public int getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
-    }
 
     public String getBorrowedFrom() {
         return borrowedFrom;
@@ -48,35 +41,43 @@ public class Borrows {
         this.borrowedFrom = borrowedFrom;
     }
 
-    public Date getBorrowedTill() {
+    public int getBorrowedTill() {
         return borrowedTill;
     }
 
-    public void setBorrowedTill(Date borrowedTill) {
+    public void setBorrowedTill(int borrowedTill) {
         this.borrowedTill = borrowedTill;
     }
 
-    public Date getActual_return() {
+    public int getActual_return() {
         return actual_return;
     }
 
-    public void setActual_return(Date actual_return) {
+    public void setActual_return(int actual_return) {
         this.actual_return = actual_return;
     }
 
-    public Date getIssuedBy() {
+    public Book getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Book bookId) {
+        this.bookId = bookId;
+    }
+
+    public Staff getIssuedBy() {
         return issuedBy;
     }
 
-    public void setIssuedBy(Date issuedBy) {
+    public void setIssuedBy(Staff issuedBy) {
         this.issuedBy = issuedBy;
     }
 
-    public int getStudentId() {
+    public Student getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(int studentId) {
+    public void setStudentId(Student studentId) {
         this.studentId = studentId;
     }
 }

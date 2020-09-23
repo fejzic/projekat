@@ -10,19 +10,19 @@ public class ClassDaoBase {
     private static ClassDaoBase instance;
     private Connection conn;
 
-    private PreparedStatement getStudentQuery,getLibraryQuery,getStaffQuery,getBookQuery,getBorrowsQuery,
-    getPublisherQuery,getCategoryQuery,getUserAccountQuery,getAdminAccountQuery,deleteStudentQuery,deleteLibraryQuery,deleteStaffQuery,
-            deleteBookQuery,deleteBorrowsQuery,deletePublisherQuery,deleteCategoryQuery,deleteUserAccountQuery,deleteAdminAccountQuery,
-            addStudentQuery,addLibraryQuery,addStaffQuery, addBookQuery,addBorrowsQuery,addPublisherQuery,addCategoryQuery,
-            addUserAccountQuery,addAdminAccountQuery,findBookQuery,findCategoryQuery,findStudentQuery,
-        addUserNameQuery,addPasswordQuery;
+    private PreparedStatement getStudentQuery, getLibraryQuery, getStaffQuery, getBookQuery, getBorrowsQuery,
+            getPublisherQuery, getCategoryQuery, getUserAccountQuery, getAdminAccountQuery, deleteStudentQuery, deleteLibraryQuery, deleteStaffQuery,
+            deleteBookQuery, deleteBorrowsQuery, deletePublisherQuery, deleteCategoryQuery, deleteUserAccountQuery, deleteAdminAccountQuery,
+            addStudentQuery, addLibraryQuery, addStaffQuery, addBookQuery, addBorrowsQuery, addPublisherQuery, addCategoryQuery,
+            addUserAccountQuery, addAdminAccountQuery, findBookQuery, findCategoryQuery, findStudentQuery,
+            addUserNameQuery, addPasswordQuery;
 
-    public static ClassDaoBase getInstance(){
-        if(instance == null) instance = new ClassDaoBase();
+    public static ClassDaoBase getInstance() {
+        if (instance == null) instance = new ClassDaoBase();
         return instance;
     }
 
-    private ClassDaoBase(){
+    private ClassDaoBase() {
         try {
             conn = DriverManager.getConnection("jdbc:sqlite:baza.db");
         } catch (SQLException e) {
@@ -44,7 +44,7 @@ public class ClassDaoBase {
             getStudentQuery = conn.prepareStatement("SELECT * FROM student WHERE id=? ");
             getBookQuery = conn.prepareStatement("SELECT * FROM book WHERE isbn = ?");
             getBorrowsQuery = conn.prepareStatement("SELECT * FROM borrows WHERE id=?");
-            getCategoryQuery= conn.prepareStatement("SELECT * FROM category WHERE id=?");
+            getCategoryQuery = conn.prepareStatement("SELECT * FROM category WHERE id=?");
             getLibraryQuery = conn.prepareStatement("SELECT * FROM library WHERE id=?");
             getPublisherQuery = conn.prepareStatement("SELECT * FROM publisher WHERE id=?");
             getStaffQuery = conn.prepareStatement("SELECT * FROM staff WHERE id=?");
@@ -55,8 +55,8 @@ public class ClassDaoBase {
             deleteBookQuery = conn.prepareStatement("DELETE FROM book WHERE isbn=?");
             deleteBorrowsQuery = conn.prepareStatement("DELETE FROM borrows WHERE id=?");
             deleteCategoryQuery = conn.prepareStatement("DELETE FROM category WHERE id=?");
-            deleteLibraryQuery= conn.prepareStatement("DELETE FROM library WHERE id=?");
-            deletePublisherQuery =conn.prepareStatement("DELETE FROM publisher WHERE id=?");
+            deleteLibraryQuery = conn.prepareStatement("DELETE FROM library WHERE id=?");
+            deletePublisherQuery = conn.prepareStatement("DELETE FROM publisher WHERE id=?");
             deleteStaffQuery = conn.prepareStatement("DELETE FROM staff WHERE id=?");
             deleteStudentQuery = conn.prepareStatement("DELETE FROM student WHERE id=?");
             findBookQuery = conn.prepareStatement("SELECT * FROM book WHERE title=?");
@@ -76,14 +76,13 @@ public class ClassDaoBase {
             addLibraryQuery = conn.prepareStatement("INSERT INTO library  VALUES(?,?,?)");
 
 
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void removeInstance(){
-        if(instance == null) return;
+    public static void removeInstance() {
+        if (instance == null) return;
         instance.close();
         instance = null;
     }
@@ -103,7 +102,7 @@ public class ClassDaoBase {
             String sqlUpit = "";
             while (ulaz.hasNext()) {
                 sqlUpit += ulaz.nextLine();
-                if ( sqlUpit.charAt( sqlUpit.length()-1 ) == ';') {
+                if (sqlUpit.charAt(sqlUpit.length() - 1) == ';') {
                     try {
                         Statement stmt = conn.createStatement();
                         stmt.execute(sqlUpit);
@@ -132,27 +131,27 @@ public class ClassDaoBase {
     }
 
     public boolean validateUserName(String userName) throws SQLException {
-        addUserNameQuery.setString(1,userName);
+        addUserNameQuery.setString(1, userName);
         ResultSet rs = addUserNameQuery.executeQuery();
-        if(!rs.next()) return false;
+        if (!rs.next()) return false;
         return true;
     }
 
     public String validatePassword(String userName) throws SQLException {
-        addPasswordQuery.setString(1,userName);
+        addPasswordQuery.setString(1, userName);
         ResultSet rs = addPasswordQuery.executeQuery();
-        if(!rs.next()) return null;
+        if (!rs.next()) return null;
         return rs.getString(4);
     }
 
     private Library getLibraryFromRs(ResultSet rs) throws SQLException {
-        Library library = new Library(rs.getInt(1),rs.getString(2),rs.getInt(3));
+        Library library = new Library(rs.getInt(1), rs.getString(2), rs.getInt(3));
         return library;
 
     }
 
-    private Student getStudentFromRs(ResultSet rs,Borrows b) throws SQLException {
-        Student student = new Student(rs.getInt(1),rs.getString(2),b,rs.getInt(4),rs.getInt(5));
+    private Student getStudentFromRs(ResultSet rs, Borrows b) throws SQLException {
+        Student student = new Student(rs.getInt(1), rs.getString(2), b, rs.getInt(4), rs.getInt(5));
         return student;
     }
 
@@ -160,21 +159,21 @@ public class ClassDaoBase {
         Library l = null;
         Publisher p = null;
         Category c = null;
-        Book b = new Book(rs.getInt(1),rs.getString(2),rs.getString(3),l,p,c);
+        Book b = new Book(rs.getInt(1), rs.getString(2), rs.getString(3), l, p, c);
         return b;
     }
 
     private UserAccount getUserAccoutFromRs(ResultSet rs) throws SQLException {
-        UserAccount us = new UserAccount(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4));
+        UserAccount us = new UserAccount(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
         return us;
     }
 
-    private ArrayList<Book> books(){
+    private ArrayList<Book> books() {
         ArrayList<Book> rez = new ArrayList<>();
         try {
             ResultSet rs = getBookQuery.executeQuery();
-            while(rs.next()){
-                Book book =  getBookFromRs(rs);
+            while (rs.next()) {
+                Book book = getBookFromRs(rs);
                 rez.add(book);
             }
         } catch (SQLException e) {
@@ -182,6 +181,74 @@ public class ClassDaoBase {
         }
         return rez;
     }
+
+    public void addBook(Book book) {
+        try {
+            addBookQuery.setInt(1, book.getIsbn());
+            addBookQuery.setString(2, book.getAuthor());
+            addBookQuery.setString(3, book.getTitle());
+            addBookQuery.setInt(4, book.getLibraryId().getId());
+            addBookQuery.setInt(5, book.getPublisherId().getId());
+            addBookQuery.setInt(6, book.getCategoryId().getId());
+            addBookQuery.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addStudent(Student student) {
+        try {
+            addStudentQuery.setInt(1, student.getId());
+            addStudentQuery.setString(2, student.getStudentName());
+            addStudentQuery.setInt(3, student.getBorrowId().getId());
+            addStudentQuery.setInt(4, student.getDepartment());
+            addStudentQuery.setInt(5, (Integer) student.getContact());
+            addStudentQuery.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addUserAccount(UserAccount userAccount) {
+        try {
+            addUserAccountQuery.setString(1, userAccount.getFirstName());
+            addUserAccountQuery.setString(2, userAccount.getLastName());
+            addUserAccountQuery.setString(3, userAccount.getUserName());
+            addUserAccountQuery.setString(4, userAccount.getPassword());
+            addUserAccountQuery.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addCategory(Category category){
+        try {
+            addCategoryQuery.setInt(1,category.getId());
+            addCategoryQuery.setString(2,category.getName());
+            addCategoryQuery.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addBorrow(Borrows borrows){
+        try {
+            addBorrowsQuery.setInt(1,borrows.getId());
+            addBorrowsQuery.setInt(2,borrows.getBookId().getIsbn());
+            addBorrowsQuery.setString(3,borrows.getBorrowedFrom());
+            addBorrowsQuery.setInt(4, borrows.getBorrowedTill());
+            addBorrowsQuery.setInt(5,borrows.getActual_return());
+            addBorrowsQuery.setInt(6,borrows.getIssuedBy().getId());
+            addBorrowsQuery.setInt(7,borrows.getStudentId().getId());
+            addBorrowsQuery.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 
 
 
