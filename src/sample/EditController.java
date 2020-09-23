@@ -15,9 +15,9 @@ public class EditController {
     public TextField fdAuthor;
     public TextField fdTitle;
     public TextField fdIsbn;
-    public ChoiceBox choiceLibrary;
-    public ChoiceBox choicePublisher;
-    public ChoiceBox choiceCategory;
+    public ChoiceBox<String> choiceLibrary;
+    public ChoiceBox<String> choicePublisher;
+    public ChoiceBox<String> choiceCategory;
     private Book book;
     private static ClassDaoBase model;
 
@@ -38,6 +38,10 @@ public class EditController {
         if(book != null){
             fdAuthor.setText(book.getAuthor());
             fdTitle.setText(book.getTitle());
+            choiceLibrary.setValue(book.getLibraryId().getBuildingName());
+            choiceCategory.setValue(book.getCategoryId().getName());
+            choicePublisher.setValue(book.getPublisherId().getName());
+            fdIsbn.setText(String.valueOf(book.getIsbn()));
         }
     }
 

@@ -77,6 +77,7 @@ public class ClassDaoBase {
             findCategoryQueryy = conn.prepareStatement("SELECT * from category where name=?");
             findPublisherQueryy = conn.prepareStatement("SELECT * from publisher where name=?");
             findCategoryQueryy = conn.prepareStatement("SELECT * from category where name=?");
+            findLibraryQueryy = conn.prepareStatement("SELECT * from library where building_name=?");
 
 
             addAdminAccountQuery = conn.prepareStatement("INSERT INTO admin_account VALUES(?,?,?)");
@@ -178,35 +179,35 @@ public class ClassDaoBase {
         }
     }
 
-    public ObservableList<Library> libraries() throws SQLException {
-        ObservableList<Library> libraries = FXCollections.observableArrayList();
+    public ObservableList<String> libraries() throws SQLException {
+        ObservableList<String> libraries = FXCollections.observableArrayList();
 
         ResultSet rs = getAllLibrariesQuery.executeQuery();
 
         while(rs.next()){
-            libraries.add(new Library(rs.getInt(1),rs.getString(2),rs.getInt(3)));
+            libraries.add(new String(rs.getString(2)));
         }
         return libraries;
     }
 
-    public ObservableList<Category> categories() throws SQLException {
-        ObservableList<Category> categories = FXCollections.observableArrayList();
+    public ObservableList<String> categories() throws SQLException {
+        ObservableList<String> categories = FXCollections.observableArrayList();
 
         ResultSet rs = getAllCategoriesQuery.executeQuery();
 
         while(rs.next()){
-            categories.add(new Category(rs.getInt(1),rs.getString(2)));
+            categories.add(new String(rs.getString(2)));
         }
         return categories;
     }
 
-    public ObservableList<Publisher> publishers() throws SQLException {
-        ObservableList<Publisher> publishers = FXCollections.observableArrayList();
+    public ObservableList<String> publishers() throws SQLException {
+        ObservableList<String> publishers = FXCollections.observableArrayList();
 
         ResultSet rs = getAllPublishersQuery.executeQuery();
 
         while(rs.next()){
-            publishers.add(new Publisher(rs.getInt(1),rs.getString(2)));
+            publishers.add(new String(rs.getString(2)));
         }
         return publishers;
     }
@@ -225,6 +226,22 @@ public class ClassDaoBase {
         return rs.getString(4);
     }
 
+    public void updateBook(Book book)  {
+        try {
+            editBookQuery.setString(1,book.getAuthor());
+            editBookQuery.setString(2,book.getTitle());
+            editBookQuery.setInt(3,book.getLibraryId().getId());
+            editBookQuery.setInt(4,book.getPublisherId().getId());
+            editBookQuery.setString(5,book.getCategoryId().getName());
+
+            editBookQuery.setInt(6,book.getIsbn());
+            editBookQuery.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private Library getLibraryFromRs(ResultSet rs) throws SQLException {
         Library library = new Library(rs.getInt(1), rs.getString(2), rs.getInt(3));
         return library;
@@ -234,6 +251,11 @@ public class ClassDaoBase {
     private Student getStudentFromRs(ResultSet rs, Borrows b) throws SQLException {
         Student student = new Student(rs.getInt(1), rs.getString(2), b, rs.getInt(4), rs.getInt(5));
         return student;
+    }
+
+    public void deleteBook(Book book) throws SQLException {
+        deleteBookQuery.setInt(1,book.getIsbn());
+        deleteBookQuery.executeUpdate();
     }
 
     private Category findKategorija(int id) throws SQLException {
@@ -284,7 +306,7 @@ public class ClassDaoBase {
         ResultSet rs = findBookQuery.executeQuery();
         Book book = new Book();
         if(rs.next()){
-            book = new Book(rs.getInt(1), rs.getString(2), rs.getString(3), findLibrary(rs.getInt(4)), findPublisher(rs.getInt(5)), findKategorija(rs.getInt(6)));
+            book = new Book(rs.getInt(1), rs.getString(2), rs.getString(3), findLibrary(rs.getInt(4)), findPublisher(rs.getInt(5)), findKategorija(Integer.parseInt(rs.getString(6))));
         }
 
     return book;
@@ -398,24 +420,6 @@ public class ClassDaoBase {
             e.printStackTrace();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 

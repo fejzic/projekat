@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -22,7 +23,7 @@ public class MainController {
 
     public TableColumn tbAuthor;
     public TableColumn tbTitle;
-    public TableColumn tbCategories;
+    public TableColumn tbPublisher;
     public TableColumn tbIsbn;
     public TableView table;
     private static ClassDaoBase base;
@@ -33,7 +34,6 @@ public class MainController {
         base = ClassDaoBase.getInstance();
         tbAuthor.setCellValueFactory(new PropertyValueFactory("author"));
         tbTitle.setCellValueFactory(new PropertyValueFactory("title"));
-        tbCategories.setCellValueFactory(new PropertyValueFactory("category_id"));
         tbIsbn.setCellValueFactory(new PropertyValueFactory("isbn"));
 
         table.setItems(base.books());
@@ -72,7 +72,7 @@ public class MainController {
                 Book book = ctrl.book();
                 if (book != null) {
                     base.addBook(book);
-                    initialize();
+                    table.setItems(base.books());
                 }
 
             });
@@ -87,19 +87,30 @@ public class MainController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editBook.fxml"));
         EditController ctrl = new EditController(book);
         loader.setController(ctrl);
-        stage.setTitle("Main");
+        stage.setTitle("Edit");
 
         try {
             root = loader.load();
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(false);
             stage.show();
+            stage.setOnHiding(event -> {
+                Book book = ctrl.book();
+                if (book != null) {
+                    base.updateBook(book);
+                    table.setItems(base.books());
+                }
+
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void actDelete(ActionEvent actionEvent) {
-        table.getItems().removeAll(table.getSelectionModel().getSelectedItems());
+    public void actDelete(ActionEvent actionEvent) throws SQLException {
+        Book book = (Book) table.getSelectionModel().getSelectedItem();
+        table.getItems().removeAll(table.getSelectionModel().getSelectedItem());
+
+        base.deleteBook(book);
     }
 }
