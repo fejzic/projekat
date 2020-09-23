@@ -19,7 +19,7 @@ public class ClassDaoBase {
             deleteBookQuery, deleteBorrowsQuery, deletePublisherQuery, deleteCategoryQuery, deleteUserAccountQuery, deleteAdminAccountQuery,
             addStudentQuery, addLibraryQuery, addStaffQuery, addBookQuery, addBorrowsQuery, addPublisherQuery, addCategoryQuery,
             addUserAccountQuery, addAdminAccountQuery, findBookQuery, findCategoryQuery, findStudentQuery,
-            addUserNameQuery, addPasswordQuery,editBookQuery,findLibraryQuery,findBorrowQuery,findPublisherQuery,findStaffQuery,getAllCategoriesQuery,getAllPublishersQuery,getAllLibrariesQuery;
+            addUserNameQuery, addPasswordQuery,editBookQuery,findLibraryQuery,findBorrowQuery,findPublisherQuery,findStaffQuery,getAllCategoriesQuery,getAllPublishersQuery,getAllLibrariesQuery,findCategoryQueryy,findLibraryQueryy,findPublisherQueryy;
 
     public static ClassDaoBase getInstance() {
         if (instance == null) instance = new ClassDaoBase();
@@ -74,6 +74,9 @@ public class ClassDaoBase {
             getAllCategoriesQuery = conn.prepareStatement("SELECT * from category");
             getAllLibrariesQuery = conn.prepareStatement("SELECT * from library");
             getAllPublishersQuery = conn.prepareStatement("SELECT * from publisher");
+            findCategoryQueryy = conn.prepareStatement("SELECT * from category where name=?");
+            findPublisherQueryy = conn.prepareStatement("SELECT * from publisher where name=?");
+            findCategoryQueryy = conn.prepareStatement("SELECT * from category where name=?");
 
 
             addAdminAccountQuery = conn.prepareStatement("INSERT INTO admin_account VALUES(?,?,?)");
@@ -128,6 +131,39 @@ public class ClassDaoBase {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public Category getCategorieName(String name) throws SQLException {
+        findCategoryQueryy.setString(1,name);
+
+        ResultSet rs = findCategoryQueryy.executeQuery();
+        Category category = new Category();
+        if(rs.next()){
+            category = new Category(rs.getInt(1),rs.getString(2));
+        }
+        return category;
+    }
+
+    public Publisher getPublisherName(String name) throws SQLException {
+        findPublisherQueryy.setString(1,name);
+
+        ResultSet rs = findPublisherQueryy.executeQuery();
+        Publisher publisher = new Publisher();
+        if(rs.next()){
+            publisher = new Publisher(rs.getInt(1),rs.getString(2));
+        }
+        return publisher;
+    }
+
+    public Library getLibrariesName(String name) throws SQLException {
+        findLibraryQueryy.setString(1,name);
+
+        ResultSet rs = findLibraryQueryy.executeQuery();
+        Library library = new Library();
+        if(rs.next()){
+            library = new Library(rs.getInt(1),rs.getString(2),rs.getInt(3));
+        }
+        return library;
     }
 
     public void registerUserName(String firstName, String lastName, String userName, String password) {

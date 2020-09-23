@@ -17,6 +17,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <Label text="Author:" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
@@ -65,7 +66,7 @@
          <children>
             <ChoiceBox fx:id="choiceCategory" layoutX="36.0" layoutY="21.0" prefWidth="150.0" />
          </children></Pane>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
         <buttons>
           <Button lineSpacing="10.0" mnemonicParsing="false" onAction="#actOk" text="Ok" />
             <Button mnemonicParsing="false" onAction="#actCancel" text="Cancel" />
@@ -74,5 +75,15 @@
             <Insets left="20.0" right="105.0" />
          </GridPane.margin>
       </ButtonBar>
+      <Label prefHeight="28.0" prefWidth="45.0" text="ISBN" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <children>
+            <TextField fx:id="fdIsbn" layoutX="36.0" layoutY="14.0" />
+         </children>
+      </Pane>
    </children>
 </GridPane>

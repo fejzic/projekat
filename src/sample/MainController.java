@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static javafx.scene.control.PopupControl.USE_COMPUTED_SIZE;
 
@@ -67,6 +68,14 @@ public class MainController {
             stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setResizable(false);
             stage.show();
+            stage.setOnHiding(event -> {
+                Book book = ctrl.book();
+                if (book != null) {
+                    base.addBook(book);
+                    initialize();
+                }
+
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,5 +100,6 @@ public class MainController {
     }
 
     public void actDelete(ActionEvent actionEvent) {
+        table.getItems().removeAll(table.getSelectionModel().getSelectedItems());
     }
 }
